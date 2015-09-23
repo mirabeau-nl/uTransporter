@@ -23,7 +23,7 @@ namespace $rootnamespace$.Controllers
     {
         private readonly IUTransporter _umbracoSync;
 
-        public UmbracoSyncController()
+        public UTransporterController()
         {
             ServiceLocator.Bootstrap();
             _umbracoSync = ObjectFactory.GetInstance<IUTransporter>();
