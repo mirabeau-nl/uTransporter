@@ -21,17 +21,17 @@ namespace $rootnamespace$.Controllers
     [IsBackOffice]
     public class UTransporterController : UmbracoAuthorizedApiController
     {
-        private readonly IUmbracoSync _umbracoSync;
+        private readonly IUTransporter _umbracoSync;
 
         public UmbracoSyncController()
         {
             ServiceLocator.Bootstrap();
-            _umbracoSync = ObjectFactory.GetInstance<IUmbracoSync>();
+            _umbracoSync = ObjectFactory.GetInstance<IUTransporter>();
         }
 
         [HttpPost]
         public HttpResponseMessage StartSync()
-        {  
+        {
             SyncResult syncResult = _umbracoSync.SynchronizeDocumentTypes();
 
             // Compose response
@@ -42,7 +42,12 @@ namespace $rootnamespace$.Controllers
         [HttpPost]
         public HttpResponseMessage StartUpGeneration()
         {
-            GenerateResult generateResult = _umbracoSync.GenerateDocumentTypes();
+            GenerateOptions options = new GenerateOptions
+                                      {
+                                          RemoveOutDatedDocumentTypes = true
+                                      };
+
+            GenerateResult generateResult = _umbracoSync.GenerateDocumentTypes(options);
 
             // Compose response
             HttpStatusCode statusCode = generateResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
@@ -92,6 +97,12 @@ namespace $rootnamespace$.Controllers
             // Compose response
             HttpStatusCode statusCode = syncResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
             return Request.CreateResponse(statusCode, syncResult);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetVersion()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, _umbracoSync.GetVersion());
         }
     }
 }
