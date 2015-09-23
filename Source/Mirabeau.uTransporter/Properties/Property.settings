@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mirabeau.uTransporter.Properties" GeneratedClassName="Property">
+  <Profiles />
+  <Settings>
+    <Setting Name="DocumentTypeProperty" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DocumentTypeProperty</Value>
+    </Setting>
+    <Setting Name="Name" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Name</Value>
+    </Setting>
+    <Setting Name="Alias" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Alias </Value>
+    </Setting>
+    <Setting Name="Description" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Description</Value>
+    </Setting>
+    <Setting Name="Tab" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Tab</Value>
+    </Setting>
+    <Setting Name="SortOrder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SortOrder</Value>
+    </Setting>
+    <Setting Name="Mandatory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mandatory</Value>
+    </Setting>
+    <Setting Name="ValidationRegExp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ValidationRegExp</Value>
+    </Setting>
+    <Setting Name="OtherTypeName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">OtherTypeName</Value>
+    </Setting>
+    <Setting Name="Other" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Other</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

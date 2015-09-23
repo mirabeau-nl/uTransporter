@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mirabeau.uTransporter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.cs</Value>
+    </Setting>
+    <Setting Name="DocumentTypesDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DocumentTypes</Value>
+    </Setting>
+    <Setting Name="TemplateNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Template</Value>
+    </Setting>
+    <Setting Name="TemplateDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Templates</Value>
+    </Setting>
+    <Setting Name="SyncBaseDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">uTransporter </Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

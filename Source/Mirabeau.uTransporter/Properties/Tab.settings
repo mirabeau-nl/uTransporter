@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mirabeau.uTransporter.Properties" GeneratedClassName="Tab">
+  <Profiles />
+  <Settings>
+    <Setting Name="TabName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TabName</Value>
+    </Setting>
+    <Setting Name="Name" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Name</Value>
+    </Setting>
+    <Setting Name="SortOrder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SortOrder </Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

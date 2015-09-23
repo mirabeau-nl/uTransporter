@@ -1,0 +1,184 @@
+﻿<div ng-controller="uTransporter.uTransporterController" style="margin: 0px 0px 10px 0px">
+    <div class="pull-right">
+        <a href="" class="help" hotkey="ctrl+shift+h" ng-click="help()" prevent-default="">
+            <i class="icon-help-alt"></i><br />
+        </a>
+    </div>
+    <h3>uTransporter</h3>
+    <div class='{{style}}'>
+        <h3>{{result}}</h3>
+        <p>{{resultText}}</p>
+        <table id="result-table" class="table table-striped" style="display: none;">
+            <tr>
+                <td>#</td>
+                <th>Action</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>1.</td>
+                <td style="width: 75%;"><b>Sync duration:</b></td>
+                <td style="text-align: center;"><b>{{syncResult.elapsedTime}}</b></td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td style="width: 75%;"><b>Documents scanned:</b></td>
+                <td style="text-align: center;"><b>{{syncResult.numberOfDocumentTypesChecked}}</b></td>
+            </tr>
+            <tr>
+                <td>3.</td>
+                <td style="width: 75%;"><b>Properties added:</b></td>
+                <td style="text-align: center;"><b>{{syncResult.numberOfPropertiesAdded}}</b></td>
+            </tr>
+            <tr>
+                <td>4.</td>
+                <td style="width: 75%;"><b>Templates added:</b></td>
+                <td style="text-align: center;"><b>{{syncResult.numberOfTemplatesAdded}}</b></td>
+            </tr>
+            <tr>
+                <td>5.</td>
+                <td style="width: 75%;"><b>Document Types added:</b></td>
+                <td style="text-align: center;"><b>{{syncResult.numberOfDocumentTypesAdded}}</b></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class='{{removeStyle}}'>
+        <h3>{{removeResultMessage}}</h3>
+        <p>{{removeResultMessageUnderline}}</p>
+        <table id="result-table" class="table table-striped" style="display: none;">
+            <tr>
+                <td>#</td>
+                <th>Action</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>1.</td>
+                <td style="width: 75%;"><b>Removal duration:</b></td>
+                <td style="text-align: center;"><b>{{removeResult.elapsedTime}}</b></td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td style="width: 75%;"><b>Documents removed:</b></td>
+                <td style="text-align: center;"><b>{{removeResult.numberOfDocumentTypesRemoved}}</b></td>
+            </tr>
+            <tr>
+                <td>3.</td>
+                <td style="width: 75%;"><b>Templates removed:</b></td>
+                <td style="text-align: center;"><b>{{removeResult.numberOfTemplatesRemoved}}</b></td>
+            </tr>
+        </table>
+    </div>
+    <div class="{{generateStyle}}">
+        <h3>{{generationMessage}}</h3>
+        <p>{{resultText}}</p>
+        <table id="result-table" class="table table-striped" style="display: none;">
+            <tr>
+                <td>#</td>
+                <th>Action</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>1.</td>
+                <td style="width: 75%;"><b>Generation duration:</b></td>
+                <td style="text-align: center;"><b>{{generationResult.elapsedTime}}</b></td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td style="width: 75%;"><b>Documents generated:</b></td>
+                <td style="text-align: center;"><b>{{generationResult.generatedClasses}}</b></td>
+            </tr>
+            <tr>
+                <td>3.</td>
+                <td style="width: 75%;"><b>Templates generated:</b></td>
+                <td style="text-align: center;"><b>{{generationResult.generatedTemplates}}</b></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class='{{dryRunStyle}}'>
+        <h3 style="text-align: center">{{dryRunMessage}}</h3>
+        <p style="text-align: center">{{dryRunText}}</p>
+        <table id="result-table" class="table table-striped" style="display: none;">
+            <tr>
+                <td>#</td>
+                <th>Action</th>
+                <th style="text-align: center;">Value</th>
+            </tr>
+            <tr>
+                <td>1.</td>
+                <td style="width: 75%;"><b>Sync duration:</b></td>
+                <td style="text-align: center;"><b>{{dryRunResult.elapsedTime}}</b></td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td style="width: 75%;"><b>Documents scanned:</b></td>
+                <td style="text-align: center;"><b>{{dryRunResult.numberOfDocumentTypesChecked}}</b></td>
+            </tr>
+            <tr>
+                <td>3.</td>
+                <td style="width: 75%;"><b>Properties added:</b></td>
+                <td style="text-align: center;"><b>{{dryRunResult.numberOfPropertiesAdded}}</b></td>
+            </tr>
+            <tr>
+                <td>4.</td>
+                <td style="width: 75%;"><b>Templates added:</b></td>
+                <td style="text-align: center;"><b>{{dryRunResult.numberOfTemplatesAdded}}</b></td>
+            </tr>
+            <tr>
+                <td>5.</td>
+                <td style="width: 75%;"><b>Document Types added:</b></td>
+                <td style="text-align: center;"><b>{{dryRunResult.numberOfDocumentTypesAdded}}</b></td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="display:none;" class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+        <div class="rect6"></div>
+        <div class="rect7"></div>
+        <div class="rect8"></div>
+    </div>
+
+    <div class="pagination" ng-show="showLog">
+        <table ng-table="tableParams" show-filter="true" class="table">
+            <tbody>
+                <tr ng-repeat="entry in $data">
+                    <td data-title="'Date'" sortable="'Date'" filter="{ 'Date' : 'text' }">{{entry.Date}}</td>
+                    <td data-title="'Message'" filter="{'message': 'text'}" sortable="Message">{{entry.Message}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Custom Pagination Template -->
+        <div class="pagination">
+            <script type="text/ng-template" id="custom/pager">
+                <ul class="pager abc ng-cloak">
+                    <li ng-repeat="page in pages"
+                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+                        <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+                            <button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+                            <button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+                            <button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+                        </div>
+                    </li>
+                </ul>
+            </script>
+        </div>
+    </div>
+    <hr />
+    <button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="startSync()">Import</button>
+    <button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="startGenerate()">Export</button>
+    <button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="dryRun()">Dry Run</button>
+    <button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="startRemoveDocumentTypes()">Remove</button>
+    <!--<button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="getLog()">{{showLog ? 'Refresh log' : 'Show log' }}</button>-->
+    <button id="btn-with-margin" class="btn btn-primary" data-ng-disabled="" ng-click="downloadLog()">Download Log</button>
+</div>

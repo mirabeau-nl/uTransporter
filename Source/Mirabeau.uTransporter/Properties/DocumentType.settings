@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mirabeau.uTransporter.Properties" GeneratedClassName="DocumentType">
+  <Profiles />
+  <Settings>
+    <Setting Name="Name" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Name</Value>
+    </Setting>
+    <Setting Name="Alias" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Alias</Value>
+    </Setting>
+    <Setting Name="Icon" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Icon </Value>
+    </Setting>
+    <Setting Name="Thumb" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Thumbnail</Value>
+    </Setting>
+    <Setting Name="Description" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Description</Value>
+    </Setting>
+    <Setting Name="AllowAtRoot" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AllowAtRoot</Value>
+    </Setting>
+    <Setting Name="DefaultTemplate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DefaultTemplate</Value>
+    </Setting>
+    <Setting Name="AllowedTemplates" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AllowedTemplates</Value>
+    </Setting>
+    <Setting Name="AllowedChildNodeTypes" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AllowedChildNodeTypes</Value>
+    </Setting>
+    <Setting Name="DocumentTypeName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DocumentType</Value>
+    </Setting>
+    <Setting Name="DocumentTypeBaseClassName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IDocumentTypeBase</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

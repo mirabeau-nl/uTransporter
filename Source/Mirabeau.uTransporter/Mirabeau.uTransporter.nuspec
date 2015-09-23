@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Mirabeau.uTransporter</id>
+    <version>$version$</version>
+    <title>Mirabeau.uTransporter</title>
+    <authors>Rick van Schalkwijk</authors>
+    <owners>Mirabeau BV</owners>
+    <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+    <projectUrl>https://github.com/mirabeau-nl/uTransporter</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An continuous deployment tool for the Umbraco CMS. Synchronizes document types, tab and templates.</description>
+    <copyright>Copyright Mirabeau 2015</copyright>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Humanizer" version="1.26.1" />
+        <dependency id="Palmer" version="0.1.4724.20297" />
+        <dependency id="structuremap" version="3.0.3.116" />
+        <dependency id="Unofficial.Microsoft.SQLServer.SMO" version="11.0.3000.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Mirabeau.uTransporter\Backoffice\App_Plugins\**" target="content\App_Plugins" />
+    <file src="..\Mirabeau.uTransporter\Backoffice\Controllers\**" target="content\Controllers" />
+    <file src="..\Mirabeau.uTransporter\Backoffice\Config\Dashboard.config.transform" target="content\config" />
+    <file src="bin\$configuration$\Mirabeau.uTransporter.dll" target="lib" />
+  </files>
+</package>
