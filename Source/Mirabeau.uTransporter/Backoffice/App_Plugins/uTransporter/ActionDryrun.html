@@ -1,0 +1,13 @@
+﻿<div class="umb-dialog umb-pane">
+    <div class="umb-dialog-body">
+        <h3>
+            Are you sure you want to perform a dryrun?
+        </h3>
+        <p>
+            The dryrun action first makes a copy of the database. Second it performs all the transformations on the copy database.
+            The original database will not be modified. Because of this the dryrun action will take long to perform!
+        </p>
+        <button class="btn btn-primary" hotkey="enter" ng-click="submit(true)">Yes</button>
+        <button class="btn btn-danger" ng-click="submit(false)">No</button>
+    </div>
+</div>

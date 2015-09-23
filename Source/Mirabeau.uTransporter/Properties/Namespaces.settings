@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mirabeau.uTransporter.Properties" GeneratedClassName="Namespaces">
+  <Profiles />
+  <Settings>
+    <Setting Name="AttributesNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mirabeau.uTransporter.Attributes</Value>
+    </Setting>
+    <Setting Name="EnumsNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mirabeau.uTransporter.Enums</Value>
+    </Setting>
+    <Setting Name="ModelsNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mirabeau.uTransporter.Models</Value>
+    </Setting>
+    <Setting Name="SystemNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">System </Value>
+    </Setting>
+    <Setting Name="DocumentTypeNamespace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">uTransporter.DocumentTypes</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

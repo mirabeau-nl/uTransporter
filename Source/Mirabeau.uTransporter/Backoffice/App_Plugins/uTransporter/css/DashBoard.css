@@ -1,0 +1,90 @@
+﻿body {
+    display: block;
+}
+
+#btn-with-margin {
+    margin: 20px 0 0 0;
+}
+
+.success h3 {
+    color: green;
+    text-align: center;
+}
+
+.success #result-table {
+    display: block !important;
+    margin-left: 20%;
+    margin-right: 35%;
+    width: 66%;
+}
+
+.generate-success #result-table {
+    display: block !important;
+    margin-left: 25%;
+    margin-right: 35%;
+    width: 66%;
+}
+
+.failed {
+    color: red;
+    text-align: center;
+}
+
+.table tbody+tbody {
+    border-top: none !important;
+}
+
+.remove-success h3 {
+    color: green;
+    text-align: center;
+}
+
+.remove-success #result-table {
+    display: block !important;
+    margin-left: 25%;
+    margin-right: 35%;
+    width: 66%;
+}
+
+.remove-failed {
+    color: red;
+    text-align: center;
+}
+
+.icon-help-alt:BEFORE, .traydeveloper:before {
+    font-size: 30px;
+    text-decoration: none;
+    margin-bottom:20px;
+}
+
+.span3:focus ~ .alert {
+  display: none;
+}
+
+.span2:focus ~ .alert {
+  display: block;
+}
+
+/* DryRun */
+
+.dryrun-success table {
+    display: block !important;
+    margin-left: 20%;
+    margin-right: 35%;
+    width: 66%;
+}
+
+.dryrun-success h3 {
+    color: green;
+    text-align: center;
+}
+
+.dryrun-failed {
+    color: red;
+    text-align: center;
+}
+
+.errorlog {
+    display: block !important;
+    color: red;
+}

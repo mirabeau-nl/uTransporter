@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dashBoard>
+  
+  <section alias="uTransporterDashBoardSection">
+    
+    <areas>
+      <area>developer</area>
+    </areas>
+    
+    <tab caption="uTransporter">
+      <control showOnce="true" addPanel="true" panelCaption="">
+        /App_Plugins/uTransporter/DashBoard.html
+      </control>
+    </tab>
+      
+    <access>
+      <deny>translators</deny>
+    </access>
+
+  </section>
+  
+</dashBoard>
