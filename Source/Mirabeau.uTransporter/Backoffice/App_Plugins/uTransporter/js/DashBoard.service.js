@@ -3,7 +3,7 @@
         startSync: function () {
             var defered = $q.defer();
 
-            $http.post("/umbraco/backoffice/API/UTransporter/StartSync")
+            $http.post("/umbraco/Mirabeau/UTransporter/StartSync")
                 .success(defered.resolve)
                 .error(defered.resolve);
 
@@ -12,7 +12,7 @@
 
         getLog: function () {
             var defered = $q.defer();
-            $http({ method: "GET", url: "/umbraco/backoffice/API/UTransporter/GetLog?path=~/App_Data/Logs/UmbracoTraceLog.txt" }).success(function (result) {
+            $http({ method: "GET", url: "/umbraco/Mirabeau/UTransporter/GetLog?path=~/App_Data/Logs/UmbracoTraceLog.txt" }).success(function (result) {
                 defered.resolve(result);
             });
 
@@ -23,7 +23,7 @@
         generate: function () {
             var defered = $q.defer();
 
-            $http.post("/umbraco/backoffice/API/UTransporter/StartUpGeneration")
+            $http.post("/umbraco/Mirabeau/UTransporter/StartUpGeneration")
                 .success(defered.resolve)
                 .error(defered.resolve);
 
@@ -33,7 +33,7 @@
         startRemoveDocumentTypes: function() {
             var defered = $q.defer();
 
-            $http.post("/umbraco/backoffice/API/UTransporter/StartRemoveDocumentTypes")
+            $http.post("/umbraco/Mirabeau/UTransporter/StartRemoveDocumentTypes")
                 .success(defered.resolve)
                 .error(defered.resolve);
 
@@ -41,13 +41,13 @@
         },
 
         downloadLog: function () {
-            window.location.href = "/umbraco/backoffice/API/UTransporter/DownloadLog";
+            window.location.href = "/umbraco/Mirabeau/UTransporter/DownloadLog";
         },
 
         dryRun: function() {
             var defered = $q.defer();
 
-            $http.post("/umbraco/backoffice/API/UTransporter/DryRun")
+            $http.post("/umbraco/Mirabeau/UTransporter/DryRun")
                 .success(defered.resolve)
                 .error(defered.resolve);
 
