@@ -83,7 +83,7 @@ namespace Mirabeau.uTransporter
             catch (Exception exception)
             {
                 // Gotta catch them all!
-                _log.Error(string.Format("Exception: {0}", exception.ToString()), exception);
+                _log.Error(string.Format("Exception: {0}", exception), exception);
 
                 generateResult.Successful = false;
                 generateResult.Message = "Generation failed, see the log for the full error message";

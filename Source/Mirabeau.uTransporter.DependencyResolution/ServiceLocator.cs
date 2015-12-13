@@ -1,7 +1,9 @@
 ﻿
+using Mirabeau.uTransporter.DependencyResolution.Registries;
+
 using StructureMap;
 
-namespace Mirabeau.uTransporter.Services
+namespace Mirabeau.uTransporter.DependencyResolution
 {
     /// <summary>
     ///  uTransporter ServiceLocator - Custom Inversion fo control

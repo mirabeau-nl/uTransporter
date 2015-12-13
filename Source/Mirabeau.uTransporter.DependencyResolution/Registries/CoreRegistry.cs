@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 
-using Mirabeau.uTransporter.Extensions;
-
 using StructureMap.Configuration.DSL;
 
-namespace Mirabeau.uTransporter.Services
+
+namespace Mirabeau.uTransporter.DependencyResolution.Registries
 {
     public class CoreRegistry : Registry
     {
@@ -13,7 +12,7 @@ namespace Mirabeau.uTransporter.Services
         /// </summary>
         public CoreRegistry()
         {
-            For<Stopwatch>().Use<Timer>();
+            //    For<Stopwatch>().Use<Timer>();
         }
     }
 }

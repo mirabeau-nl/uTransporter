@@ -1,8 +1,8 @@
 ﻿using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace Mirabeau.uTransporter.Services 
-{ 
+namespace Mirabeau.uTransporter.DependencyResolution.Registries
+{
     public class ScanningRegistry : Registry
     {
         /// <summary>
@@ -14,6 +14,7 @@ namespace Mirabeau.uTransporter.Services
                 x =>
                 {
                     x.TheCallingAssembly();
+                    x.Assembly("Mirabeau.uTransporter");
                     x.WithDefaultConventions();
                 });
         }
