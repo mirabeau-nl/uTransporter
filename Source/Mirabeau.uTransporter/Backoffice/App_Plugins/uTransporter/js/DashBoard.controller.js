@@ -34,7 +34,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             $(".spinner").hide();
 
             dialogService.open({
-                template: '/App_Plugins/uTransporter-dashboard/ConfirmAction.html?t=' + new Date().getTime(),
+                template: '/App_Plugins/uTransporter/ConfirmAction.html?t=' + new Date().getTime(),
                 callback: function(confirmed) {
 
                     if (!confirmed) {
@@ -70,7 +70,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             $(".spinner").hide();
 
             dialogService.open({
-                template: '/App_Plugins/uTransporter-dashboard/ConfirmAction.html?t=' + new Date().getTime(),
+                template: '/App_Plugins/uTransporter/ConfirmAction.html?t=' + new Date().getTime(),
                 callback: function(confirmed) {
 
                     if (!confirmed) {
@@ -97,7 +97,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             $(".spinner").hide();
 
             dialogService.open({
-                template: '/App_Plugins/uTransporter-dashboard/ConfirmAction.html?t=' + new Date().getTime(),
+                template: '/App_Plugins/uTransporter/ConfirmAction.html?t=' + new Date().getTime(),
                 callback: function (confirmed) {
 
                     if (!confirmed) {
@@ -161,7 +161,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
 
         $scope.help = function() {
             dialogService.open({
-                template: '/App_Plugins/uTransporter-dashboard/HelpDialog.html',
+                template: '/App_Plugins/uTransporter/HelpDialog.html',
                 callback: function(confirmed) {
                     if (!confirmed) {
                         return;
@@ -180,7 +180,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             $(".spinner").hide();
 
             dialogService.open({
-                template: '/App_Plugins/uTransporter-dashboard/ConfirmActionDryrun.html?t=' + new Date().getTime(),
+                template: '/App_Plugins/uTransporter/ConfirmActionDryrun.html?t=' + new Date().getTime(),
                 callback: function (confirmed) {
 
                     if (!confirmed) {

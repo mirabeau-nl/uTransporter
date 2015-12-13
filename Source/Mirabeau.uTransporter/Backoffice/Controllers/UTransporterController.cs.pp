@@ -5,34 +5,36 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Configuration;
 using System.Web.Http;
 
+using Mirabeau.uTransporter.DependencyResolution;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Logging;
 using Mirabeau.uTransporter.Models;
-using Mirabeau.uTransporter.Services;
 
 using StructureMap;
 
+using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 
 namespace $rootnamespace$.Controllers
 {
-    [IsBackOffice]
+    [PluginController("Mirabeau")]
     public class UTransporterController : UmbracoAuthorizedApiController
     {
-        private readonly IUTransporter _umbracoSync;
+        private readonly IUTransporter _uTransporter;
 
         public UTransporterController()
         {
-            ServiceLocator.Bootstrap();
-            _umbracoSync = ObjectFactory.GetInstance<IUTransporter>();
+             IoC.Bootstrap();
+            _uTransporter = ObjectFactory.GetInstance<IUTransporter>();
         }
 
         [HttpPost]
         public HttpResponseMessage StartSync()
         {
-            SyncResult syncResult = _umbracoSync.SynchronizeDocumentTypes();
+            SyncResult syncResult = _uTransporter.SynchronizeDocumentTypes();
 
             // Compose response
             HttpStatusCode statusCode = syncResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
@@ -47,7 +49,7 @@ namespace $rootnamespace$.Controllers
                                           RemoveOutDatedDocumentTypes = true
                                       };
 
-            GenerateResult generateResult = _umbracoSync.GenerateDocumentTypes(options);
+            GenerateResult generateResult = _uTransporter.GenerateDocumentTypes(options);
 
             // Compose response
             HttpStatusCode statusCode = generateResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
@@ -57,7 +59,7 @@ namespace $rootnamespace$.Controllers
         [HttpPost]
         public HttpResponseMessage StartRemoveDocumentTypes()
         {
-            RemoveResult removeResult = _umbracoSync.RemoveDocumentTypes();
+            RemoveResult removeResult = _uTransporter.RemoveDocumentTypes();
 
             // Compose response
             HttpStatusCode statusCode = removeResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
@@ -92,7 +94,7 @@ namespace $rootnamespace$.Controllers
         [HttpPost]
         public HttpResponseMessage DryRun()
         {
-            SyncResult syncResult = _umbracoSync.SynchronizeDocumentTypesDryRun();
+            SyncResult syncResult = _uTransporter.SynchronizeDocumentTypesDryRun();
 
             // Compose response
             HttpStatusCode statusCode = syncResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
@@ -102,7 +104,7 @@ namespace $rootnamespace$.Controllers
         [HttpGet]
         public HttpResponseMessage GetVersion()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, _umbracoSync.GetVersion());
+            return Request.CreateResponse(HttpStatusCode.OK, _uTransporter.GetVersion());
         }
     }
 }

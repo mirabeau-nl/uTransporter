@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mirabeau.uTransporter</RootNamespace>
     <AssemblyName>Mirabeau.uTransporter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -231,6 +231,7 @@
     <Compile Include="Comparers\PropertyGroupEqualityCompairer.cs" />
     <Compile Include="Comparers\PropertyTypeComparer.cs" />
     <Compile Include="Comparers\TemplateComparer.cs" />
+    <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="Properties\DocumentType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -337,9 +338,6 @@
     <Compile Include="Repositories\PropertyWriteRepository.cs" />
     <Compile Include="Repositories\TemplateReadRepository.cs" />
     <Compile Include="Repositories\TemplateWriteRepository.cs" />
-    <Compile Include="Services\CoreRegistry.cs" />
-    <Compile Include="Services\ScanningRegistry.cs" />
-    <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Services\SqlObjectManager.cs" />
     <Compile Include="UmbracoServices\RetryableContentTypeService.cs" />
     <Compile Include="UmbracoServices\RetryableDataTypeService.cs" />
@@ -406,6 +404,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mirabeau.uTransporter.DependencyResolution\Mirabeau.uTransporter.DependencyResolution.csproj">
+      <Project>{5fe015cc-cf9e-498b-adc2-4e1ae1f462d8}</Project>
+      <Name>Mirabeau.uTransporter.DependencyResolution</Name>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

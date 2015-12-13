@@ -22,7 +22,7 @@
 
         generate: function () {
             var defered = $q.defer();
-
+            ///umbraco/DSB/DSBMember/HandlePasswordReset
             $http.post("/umbraco/Mirabeau/UTransporter/StartUpGeneration")
                 .success(defered.resolve)
                 .error(defered.resolve);
