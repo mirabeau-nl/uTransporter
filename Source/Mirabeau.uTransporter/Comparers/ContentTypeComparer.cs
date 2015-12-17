@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using log4net;
+
 using Mirabeau.uTransporter.Attributes;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core.Models;
 
@@ -19,14 +21,9 @@ namespace Mirabeau.uTransporter.Comparers
         #region Private Fields
 
         private readonly IAttributeManager _attributeManager;
-
         private readonly ITemplateManager _templateManager;
-
         private readonly IPropertyComparer _propertyComparer;
-
         private readonly IContentTypeFactory _contentTypeFactory;
-
-        private readonly ILog4NetWrapper _log = LogManagerWrapper.GetLogger("Mirabeau.UuTransporter");
 
         #endregion
 
@@ -210,7 +207,7 @@ namespace Mirabeau.uTransporter.Comparers
 
         private void LogChanges(string contentTypeName, string previous, string updated)
         {
-            _log.Info(string.Format("In document type {0} the value of '{1}' has changed to '{2}'", contentTypeName, previous, updated));
+            Logger.WriteInfoLine<ContentTypeComparer>("In document type {0} the value of '{1}' has changed to '{2}'", contentTypeName, previous, updated);
         }
 
         #endregion

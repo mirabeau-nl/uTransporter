@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Mirabeau.uTransporter.Attributes;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Logging;
 
@@ -24,8 +25,6 @@ namespace Mirabeau.uTransporter.Repositories
 
         private readonly IRetryableContentTypeService _retryableContentTypeService;
 
-        private readonly ILog4NetWrapper _log;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyWriteRepository"/> class.
         /// </summary>
@@ -40,7 +39,6 @@ namespace Mirabeau.uTransporter.Repositories
             _attributeManager = managerFactory.CreateAttributeManager();
             _propertyReadRepository = propertyReadRepository;
             _retryableContentTypeService = retryableContentTypeService;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -109,7 +107,7 @@ namespace Mirabeau.uTransporter.Repositories
             contentType.RemovePropertyType(propertyType.Alias);
             _retryableContentTypeService.Save(contentType);
 
-            _log.Info(
+            Logger.WriteInfoLine<PropertyWriteRepository>(
                 "Property with name {0}({1}) in Document Type {2}({3}) removed",
                 propertyType.Name,
                 propertyType.Id,

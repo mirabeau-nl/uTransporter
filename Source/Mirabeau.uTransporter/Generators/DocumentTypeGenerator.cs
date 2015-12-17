@@ -6,8 +6,8 @@ using System.Linq;
 
 using Mirabeau.uTransporter.Comparers;
 using Mirabeau.uTransporter.Enums;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core;
 using Umbraco.Core.Models;
@@ -25,7 +25,6 @@ namespace Mirabeau.uTransporter.Generators
         private readonly IDataTypeManager _dataTypeManager;
         private readonly IPropertyReadRepository _propertyReadRepository;
         private readonly IClassNameHelper _classNameHelper;
-        private readonly ILog4NetWrapper _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
 
         #region Public methods
         public DocumentTypeGenerator(IContentReadRepository contentReadRepository, IFileHelper fileHelper, IDataTypeManager dataTypeManager, IPropertyReadRepository propertyReadRepository, IClassNameHelper classNameHelper)
@@ -39,13 +38,13 @@ namespace Mirabeau.uTransporter.Generators
 
         public int Generate(string targetPath)
         {
-            _log.Info("Starting with generation of document types......");
+            Logger.WriteInfoLine<DocumentTypeGenerator>("Starting with generation of document types......");
 
             IEnumerable<IContentType> allContentTypes = _contentReadRepository.GetAllContentTypes().ToList();
 
             if (!allContentTypes.Any())
             {
-                _log.Info("No document types to export because there are not document type in the database.");
+                Logger.WriteInfoLine<DocumentTypeGenerator>("No document types to export because there are not document type in the database.");
             }
 
             allContentTypes.ForEach(contentType => CreateDocumentType(targetPath, contentType));
@@ -122,9 +121,17 @@ namespace Mirabeau.uTransporter.Generators
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             codeCompileUnit.Namespaces.Add(codeNameSpace);
 
-            string combinePaths = Utils.Util.CombinePaths(targetPath, Properties.Settings.Default.DocumentTypesDir, Utils.Util.DehumanizeAndTrim(targetClass.Name) + Properties.Settings.Default.FileExtension);
+            // create the filename
+            string fileName = string.Format(
+                "{0}{1}",
+                Utils.Util.DehumanizeAndTrim(targetClass.Name),
+                Properties.Settings.Default.FileExtension);
 
-            _fileHelper.WriteFile(combinePaths, codeCompileUnit); // write the class definition to file
+            // combine all paths
+            string combinePaths = Utils.Util.CombinePaths(targetPath, Properties.Settings.Default.DocumentTypesDir, fileName);
+
+            // write the class definition to file
+            _fileHelper.WriteFile(combinePaths, codeCompileUnit);
         }
 
         private CodeAttributeDeclaration CreateAttributes(IContentType contentType)

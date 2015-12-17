@@ -4,9 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
+using log4net;
+
 using Mirabeau.uTransporter.Attributes;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core.Models;
 
@@ -25,8 +27,6 @@ namespace Mirabeau.uTransporter.Comparers
 
         private readonly IPropertyReadRepository _propertyReadRepository;
 
-        private readonly ILog4NetWrapper _log;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyComparer"/> class.
         /// </summary>
@@ -39,7 +39,6 @@ namespace Mirabeau.uTransporter.Comparers
             _propertyReadRepository = propertyReadRepository;
             _propertyValidator = validatorFactory.CreatePropertyValidator();
             _dataTypeManager = managerFactory.CreateDataTypeManager();
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -134,19 +133,14 @@ namespace Mirabeau.uTransporter.Comparers
             return true;
         }
 
-        private static string EscapeCurlyBraces(string value)
-        {
-            return value.Replace("{", "{{").Replace("}", "}}");
-        }
-
         private void LogChange(string propertyName, string previous, string updated)
         {
-            _log.Info(string.Format("In property {0} the value of '{1}' has changed to '{2}'", propertyName, previous, updated));
+            Logger.WriteInfoLine<PropertyComparer>("In property {0} the value of '{1}' has changed to '{2}'", propertyName, previous, updated);
         }
 
         private void LogTabChange(string propertyName, string previous, string updated)
         {
-            _log.Info(string.Format("The property {0} has changed from tab'{1}' to tab '{2}'", propertyName, updated, previous));
+            Logger.WriteInfoLine<PropertyComparer>("The property {0} has changed from tab'{1}' to tab '{2}'", propertyName, updated, previous);
         }
     }
 }

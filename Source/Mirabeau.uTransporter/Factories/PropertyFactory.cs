@@ -6,7 +6,6 @@ using System.Reflection;
 using Mirabeau.uTransporter.Attributes;
 using Mirabeau.uTransporter.Builders;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core.Models;
 
@@ -32,8 +31,6 @@ namespace Mirabeau.uTransporter.Factories
             _propertyValidator = validatorFactory.CreatePropertyValidator();
             _retryableContentTypeService = retryableContentTypeService;
             _attributeManager = managerFactory.CreateAttributeManager();
-
-            _log = LogManagerWrapper.GetLogger(typeof(PropertyFactory).Name);
         }
 
         /// <summary>

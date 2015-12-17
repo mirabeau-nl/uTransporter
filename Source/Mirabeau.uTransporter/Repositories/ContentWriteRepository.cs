@@ -4,8 +4,8 @@ using System.Linq;
 
 using Mirabeau.uTransporter.Attributes;
 using Mirabeau.uTransporter.Exceptions;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 using Mirabeau.uTransporter.UmbracoServices;
 
 using Umbraco.Core;
@@ -23,8 +23,6 @@ namespace Mirabeau.uTransporter.Repositories
         private readonly IAttributeManager _attributeManager;
 
         private readonly IContentReadRepository _contentReadRepository;
-
-        private readonly ILog4NetWrapper _log;
 
         private readonly IContentTypeFactory _contentTypeFactory;
 
@@ -78,7 +76,6 @@ namespace Mirabeau.uTransporter.Repositories
             _propertyWriteRepository = propertyWriteRepository;
             _templateManager = managerFactory.CreateTemplateManager();
             _propertyReadRepository = propertyReadRepository;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -105,7 +102,7 @@ namespace Mirabeau.uTransporter.Repositories
             }
             catch (AliasNullException exception)
             {
-                _log.Fatal(exception.Message);
+                Logger.WriteErrorLine<ContentWriteRepository>("{0}", exception.Message);
                 throw;
             }
 
@@ -168,7 +165,7 @@ namespace Mirabeau.uTransporter.Repositories
         /// Updates the type.
         /// </summary>
         /// <param name="type">The type.</param>
-        private void UpdateType(Type type)
+        private void UpdateContentType(Type type)
         {
             DocumentTypeAttribute docAttribute = _attributeManager.GetContentTypeAttributes<DocumentTypeAttribute>(type);
 
@@ -199,8 +196,8 @@ namespace Mirabeau.uTransporter.Repositories
 
                 contentType.AllowedContentTypes = contentTypeSort.ToArray();
                 _retryableContentTypeService.Save(contentType);
-                _log.Indent();
-                _log.Info(
+
+                Logger.WriteInfoLine<ContentWriteRepository>(
                     "Document type {0} was saved with {1} new type node types",
                     contentType.Name,
                     contentType.AllowedContentTypes.Count());
@@ -209,45 +206,42 @@ namespace Mirabeau.uTransporter.Repositories
 
         private void Save(IEnumerable<Type> objectList, IContentType parent)
         {
-            _log.Info("DocumentWriteRepository.Save: dryrun: " + UmbracoService.GetDryRunMode());
+            var dryRunMode = UmbracoService.GetDryRunMode();
+            Logger.WriteInfoLine<ContentWriteRepository>("DocumentWriteRepository.Save: dryrun: {0}", dryRunMode);
 
             objectList.ForEach(child => SaveInnerMethod(child, parent));
         }
 
         private void SaveInnerMethod(Type type, IContentType parent)
         {
-            IContentType contentType = this.GetContentType(type);
+            IContentType contentType = GetContentType(type);
             _typeList.Add(type);
-            this.LogBlock(type.Name);
+            LogBlock(type.Name);
 
             // does the document type allrighty exists, yes? Don't resave it.
             if (contentType != null)
             {
-                _log.Indent();
-                _log.Info("Document type {0} already exist, checking for changes", type.Name);
+                Logger.WriteInfoLine<ContentWriteRepository>("Document type {0} already exist, checking for changes", type.Name);
 
                 this.RemoveRedudantProperties(type, contentType);
 
                 if (_contentTypeComparer.Compare(type, contentType))
                 {
-                    _log.Indent();
-                    _log.Info("No changes found in {0}", type.Name);
-                    this.MoveToTheNextContentType(type);
+                    Logger.WriteInfoLine<ContentWriteRepository>("No changes found in {0}", type.Name);
+                    NextContentType(type);
                 }
                 else
                 {
                     // some thing has change get the documnent type and update it
-                    _log.Indent();
-                    _log.Info("The document or property atrributes of {0} have changed.", contentType.Name);
-                    this.UpdateType(type);
-                    this.MoveToTheNextContentType(type);
+                    Logger.WriteInfoLine<ContentWriteRepository>("The document or property atrributes of {0} have changed.", contentType.Name);
+                    UpdateContentType(type);
+                    NextContentType(type);
                 }
             }
             else
             {
                 // document doesn't exist, we need to add it. 
-                _log.Indent();
-                _log.Info("Document type {0} doesn't exists, adding it", type.Name);
+                Logger.WriteInfoLine<ContentWriteRepository>("Document type {0} doesn't exists, adding it", type.Name);
                 IContentType levelTwoParent = this.SaveType(type, parent);
                 SaveChildren(type, levelTwoParent);
             }
@@ -260,7 +254,7 @@ namespace Mirabeau.uTransporter.Repositories
             if (children.Any())
             {
                 IContentType parent = _retryableContentTypeService.GetContentType(documentType.Alias);
-                this.Save(children, parent);
+                Save(children, parent);
             }
         }
 
@@ -273,7 +267,7 @@ namespace Mirabeau.uTransporter.Repositories
             }
         }
 
-        private void MoveToTheNextContentType(Type nextDocumentType)
+        private void NextContentType(Type nextDocumentType)
         {
             IContentType levelTwoParent = _retryableContentTypeService.GetContentType(_contentReadRepository.GetContentTypeAlias(nextDocumentType));
             this.SaveChildren(nextDocumentType, levelTwoParent);
@@ -288,7 +282,7 @@ namespace Mirabeau.uTransporter.Repositories
 
         private void LogBlock(string contentTypeName)
         {
-            _log.Info("Found document type with name: {0}", contentTypeName);
+            Logger.WriteInfoLine<ContentWriteRepository>("Found document type with name: {0}", contentTypeName);
         }
 
         #endregion

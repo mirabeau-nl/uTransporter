@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 namespace Mirabeau.uTransporter.Extensions
 {
@@ -16,12 +15,6 @@ namespace Mirabeau.uTransporter.Extensions
     /// </summary>
     public class FileHelper : IFileHelper
     {
-        private readonly ILog4NetWrapper _log;
-
-        public FileHelper()
-        {
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
-        }
         /// <summary>
         /// Writes the file to disk.
         /// </summary>
@@ -40,7 +33,7 @@ namespace Mirabeau.uTransporter.Extensions
             {
                 provider.GenerateCodeFromCompileUnit(codeCompileUnit, sourceWriter, options);
 
-                _log.Info("file with name: {0} written to file system", filename);
+                Logger.WriteDebugLine<FileHelper>("file with name: {0} written to file system", filename);
             }
 
             provider.Dispose();
@@ -80,7 +73,7 @@ namespace Mirabeau.uTransporter.Extensions
 
             if (!this.FileExists(rootPath, fileName))
             {
-                _log.Error("Can't find/read from file with name {0}", fileName);
+                Logger.WriteErrorLine<FileHelper>("Can't find/read from file with name {0}", fileName);
                 throw new Exception();
             }
 
@@ -102,9 +95,9 @@ namespace Mirabeau.uTransporter.Extensions
             {
                 File.Delete(path);
             }
-            catch (UnauthorizedAccessException e)
+            catch (Exception ex)
             {
-                _log.Error("Can't delete file in directory {0}", path);
+                Logger.WriteErrorLine<FileHelper>("Can't delete file in directory {0}, exception {1}", path, ex);
             }
         }
 
@@ -136,9 +129,9 @@ namespace Mirabeau.uTransporter.Extensions
                 throw new UnauthorizedAccessException(
                     string.Format("Unable to access files in directory {0}, check your permissions", targetDirectory));
             }
-            catch (DirectoryNotFoundException)
+            catch (DirectoryNotFoundException ex)
             {
-                _log.Error("Directory not found, no items to delete");
+                Logger.WriteErrorLine<FileHelper>("Directory not found, no items to delete {0}", ex);
             }
 
 
@@ -169,7 +162,7 @@ namespace Mirabeau.uTransporter.Extensions
             }
             catch (UnauthorizedAccessException)
             {
-                _log.Error("Can't create file in directory {0}, check your permissions...", path);
+                Logger.WriteErrorLine<FileHelper>("Can't create file in directory {0}, check your permissions...", path);
             }
         }
 
@@ -190,7 +183,7 @@ namespace Mirabeau.uTransporter.Extensions
                 }
                 catch (IOException e)
                 {
-                    _log.Error("Can't create, check your permissions...");
+                    Logger.WriteErrorLine<FileHelper>("Can't create, check your permissions...");
                 }
             }
         }

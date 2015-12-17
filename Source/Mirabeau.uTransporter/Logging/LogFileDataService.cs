@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
 
-using Mirabeau.uTransporter.Interfaces;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Models;
 
 namespace Mirabeau.uTransporter.Logging
@@ -14,7 +14,6 @@ namespace Mirabeau.uTransporter.Logging
 
         private string pattern = @"^.*mirabeau\.umbraco\.synctool.*$";
 
-        private ILog4NetWrapper _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
 
         public List<LogFileDataItem> GetLogData(string path)
         {
@@ -29,7 +28,7 @@ namespace Mirabeau.uTransporter.Logging
             }
             catch (IOException e)
             {
-                _log.Error("Can read from file", e);
+                Logger.WriteErrorLine<LogFileDataService>("Can read from file", e);
             }
 
             string[] lines = logData.Split('\n');
@@ -52,8 +51,8 @@ namespace Mirabeau.uTransporter.Logging
         public string WriteToFile()
         {
             string fullPath = LogFileService.BuildFilePathWithHostName();
-            
-            using (StreamWriter sw =  new StreamWriter(fullPath))
+
+            using (StreamWriter sw = new StreamWriter(fullPath))
             {
                 IEnumerable<LogFileDataItem> logDataItems = this.GetLogData("~/App_Data/Logs/UmbracoTraceLog.txt");
 

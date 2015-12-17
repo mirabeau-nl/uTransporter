@@ -6,8 +6,8 @@ using System.Web.Management;
 using Mirabeau.uTransporter.Attributes;
 using Mirabeau.uTransporter.Enums;
 using Mirabeau.uTransporter.Exceptions;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core.Models;
 
@@ -16,7 +16,6 @@ namespace Mirabeau.uTransporter.Managers
     public class DataTypeManager : IDataTypeManager
     {
         private readonly IRetryableDataTypeService _dataTypeService;
-        private ILog4NetWrapper _log;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataTypeManager"/> class.
@@ -25,7 +24,6 @@ namespace Mirabeau.uTransporter.Managers
         public DataTypeManager(IRetryableDataTypeService dataTypeService)
         {
             _dataTypeService = dataTypeService;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace Mirabeau.uTransporter.Managers
                 }
                 catch (CustomDataTypeArgumentNullException exception)
                 {
-                    _log.Error(exception.Message);
+                    Logger.WriteErrorLine<DataTypeManager>("{0}", exception.Message);
                 }
             }
             else
@@ -100,7 +98,7 @@ namespace Mirabeau.uTransporter.Managers
                 }
                 catch (ArgumentNullException exception)
                 {
-                    _log.Fatal(exception.Message);
+                    Logger.WriteErrorLine<DataTypeManager>("{0}", exception.Message);
                 }
             }
 
@@ -126,14 +124,16 @@ namespace Mirabeau.uTransporter.Managers
 
             try
             {
-                _dataTypeService.Save(dataTypeDefinition);   
+                _dataTypeService.Save(dataTypeDefinition);
             }
             catch (Exception)
             {
-              throw new SqlExecutionException(
-                   string.Format("Can't add data type with name: {0}, please check the data type definition", dataTypeDefinition.Name));
+                throw new SqlExecutionException(
+                     string.Format("Can't add data type with name: {0}, please check the data type definition", dataTypeDefinition.Name));
             }
-            _log.Info("DataType with name {0} did not exist, created it.", name);
+
+            Logger.WriteInfoLine<DataTypeManager>("DataType with name {0} did not exist, created it.", name);
+
             return dataTypeDefinition;
         }
 

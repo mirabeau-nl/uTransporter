@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
@@ -17,8 +17,6 @@ namespace Mirabeau.uTransporter.Managers
         private readonly IFileService _fileService;
 
         private readonly IDocumentFinder _documentFinder;
-
-        private readonly ILog4NetWrapper _log;
 
         private readonly IContentWriteRepository _contentWriteRepository;
 
@@ -34,7 +32,6 @@ namespace Mirabeau.uTransporter.Managers
             _retryableContentTypeService = retryableContentTypeService;
             _fileService = umbracoFactory.GetFileService();
             _contentWriteRepository = contentWriteRepository;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -84,7 +81,7 @@ namespace Mirabeau.uTransporter.Managers
                 removedDocumentsCounter++;
             }
 
-            _log.Info("Removed all document types from the database");
+            Logger.WriteInfoLine<ContentTypeManager>("Removed all document types from the database");
 
             return removedDocumentsCounter;
         }

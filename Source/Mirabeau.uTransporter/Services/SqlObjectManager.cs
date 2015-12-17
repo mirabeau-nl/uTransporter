@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 using System.Web.Configuration;
 
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Logging;
 
@@ -13,23 +15,13 @@ namespace Mirabeau.uTransporter.Services
 {
     public class SqlObjectManager : ISqlObjectManager
     {
-        private readonly ILog4NetWrapper _log;
-
         private string _dbServer;
-        
-        private string _dbUsername;
-        
-        private string _dbPassword;
-        
-        private string _dbDatabase;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlObjectManager"/> class.
-        /// </summary>
-        public SqlObjectManager()
-        {
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
-        }
+        private string _dbUsername;
+
+        private string _dbPassword;
+
+        private string _dbDatabase;
 
         /// <summary>
         /// Gets the connection string settings.
@@ -110,7 +102,7 @@ namespace Mirabeau.uTransporter.Services
                 Database newDatabase = new Database(sqlServer, destDatabase);
                 newDatabase.Create();
 
-                _log.Info("Created new dry-run database, with name {0}", newDatabase.Name);
+                Logger.WriteInfoLine<SqlObjectManager>("Created new dry-run database, with name {0}", newDatabase.Name);
             }
 
             this.TransferData(existingDb, destDatabase);
@@ -123,12 +115,12 @@ namespace Mirabeau.uTransporter.Services
         public void DeleteDatabase(SqlConnectionStringBuilder _sqlConnectionStringBuilder)
         {
             ServerConnection con = CreateNewConnection(
-                _sqlConnectionStringBuilder.DataSource, 
-                _sqlConnectionStringBuilder.UserID, 
+                _sqlConnectionStringBuilder.DataSource,
+                _sqlConnectionStringBuilder.UserID,
                 _sqlConnectionStringBuilder.Password);
             Server sqlServer = new Server(con);
             Database databaseToDrop = new Database(sqlServer, _sqlConnectionStringBuilder.InitialCatalog);
-            
+
             // Refresh the database list in SQL server
             this.RefreshDatabase(databaseToDrop);
 
@@ -158,9 +150,10 @@ namespace Mirabeau.uTransporter.Services
             {
                 server.KillAllProcesses(databaseName);
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
-                throw new NullReferenceException(string.Format("Can't close the connection on {0} with datbase {1},", server.Name, databaseName));
+                Logger.WriteErrorLine<SqlObjectManager>("Can't close the connection on {0} with datbase {1}, exception {2}", server.Name, databaseName, ex);
+                throw new NullReferenceException();
             }
         }
 
@@ -172,7 +165,7 @@ namespace Mirabeau.uTransporter.Services
             transfer.CreateTargetDatabase = false;
             transfer.CopyAllObjects = false;
             transfer.CopyAllTables = true;
-            
+
             transfer.Options.WithDependencies = true;
             transfer.Options.DriAllConstraints = false;
             transfer.Options.DriAllKeys = false;
@@ -191,9 +184,9 @@ namespace Mirabeau.uTransporter.Services
             transfer.DestinationLogin = _dbUsername;
             transfer.DestinationPassword = _dbPassword;
             transfer.DestinationDatabase = destDatabase;
-            transfer.TransferData();  
+            transfer.TransferData();
 
-            _log.Info("All data transfered to the new database");
+            Logger.WriteInfoLine<SqlObjectManager>("All data transfered to the new database {0}", destDatabase);
         }
     }
 }

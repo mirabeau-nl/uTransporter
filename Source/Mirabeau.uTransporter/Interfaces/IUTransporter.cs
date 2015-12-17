@@ -5,15 +5,10 @@ namespace Mirabeau.uTransporter.Interfaces
     public interface IUTransporter
     {
         /// <summary>
-        /// Kickoff the sync
-        /// </summary>
-        void RunSync();
-
-        /// <summary>
         /// Synchronizes the document types.
         /// main application entraince
         /// </summary>
-        SyncResult SynchronizeDocumentTypes();
+        SyncResult RunImport();
 
         /// <summary>
         /// 

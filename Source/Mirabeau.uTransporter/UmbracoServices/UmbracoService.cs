@@ -1,6 +1,6 @@
-﻿using Mirabeau.uTransporter.Factories;
+﻿using Mirabeau.uTransporter.Extensions;
+using Mirabeau.uTransporter.Factories;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 using Umbraco.Core;
 using Umbraco.Core.Services;
@@ -9,8 +9,6 @@ namespace Mirabeau.uTransporter.UmbracoServices
 {
     public class UmbracoService : IUmbracoService
     {
-        private static ILog4NetWrapper _log;
-
         private static readonly object isDryRunMutex = new object();
 
         private static bool _isDryRun;
@@ -24,7 +22,6 @@ namespace Mirabeau.uTransporter.UmbracoServices
         /// </summary>
         public UmbracoService()
         {
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
             _dryRunServiceContextFactory = new DryRunServiceFactory("umbracoDbDSN");
             _serviceContext = this.GetApplicationServiceContext();
         }
@@ -37,13 +34,13 @@ namespace Mirabeau.uTransporter.UmbracoServices
         public static void EnableDryRunMode()
         {
             SetDryRunMode(true);
-            _log.Debug("Enabled dry-run mode.");
+            Logger.WriteDebugLine<UmbracoService>("Enabled dry-run mode.");
         }
 
         public static void DisableDryRunMode()
         {
             SetDryRunMode(false);
-            _log.Debug("Disabled dry-run mode.");
+            Logger.WriteDebugLine<UmbracoService>("Disabled dry-run mode.");
         }
 
         private static void SetDryRunMode(bool enabled)

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 using Mirabeau.uTransporter.Models;
+
+using umbraco.BusinessLogic;
 
 namespace Mirabeau.uTransporter
 {
@@ -15,8 +18,6 @@ namespace Mirabeau.uTransporter
     /// </summary>
     public class UTransporter : IUTransporter
     {
-        private static ILog4NetWrapper _log;
-
         private readonly IContentTypeManager _contentTypeManager;
 
         private readonly ITemplateReadRepository _templateReadRepository;
@@ -49,7 +50,6 @@ namespace Mirabeau.uTransporter
             _templateReadRepository = templateReadRepository;
             _sqlManagerObject = sqlManagerObject;
             _contentReadRepository = contentReadRepository;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
             _timer = new Stopwatch();
             _documentTypeGenerator = documentTypeGenerator;
             _templateGenerator = templateGenerator;
@@ -58,13 +58,51 @@ namespace Mirabeau.uTransporter
         /// <summary>
         /// Kickoff the sync
         /// </summary>
-        public void RunSync()
+        public SyncResult RunImport()
         {
-            SynchronizeDocumentTypes();
+            SyncResult syncResult = CreateSyncResult();
+
+            int numberOfTemplatesBefore = _templateReadRepository.CountAllTemplates();
+            int numberOfPropertiesBefore = _contentReadRepository.CountAllPropertiesFromAllContentTypes();
+            int numberOfDocumentTypesBefore = _contentReadRepository.GetAllContentTypesCount();
+
+            try
+            {
+                _timer.Restart();
+                _contentTypeManager.SaveContentType();
+
+                syncResult.Successful = true;
+                syncResult.Message = "Synchronisation successful";
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteErrorLine<UTransporter>("Exception: {0}", ex.Message);
+
+                syncResult.Successful = false;
+                syncResult.Message = "Synchronisation failed";
+            }
+            finally
+            {
+                _timer.Stop();
+
+                syncResult.ElapsedTime = _timer.Elapsed;
+                syncResult.FinishedTimestamp = DateTime.Now;
+
+                if (syncResult.Successful)
+                {
+                    syncResult.NumberOfDocumentTypesChecked = _contentReadRepository.GetAllContentTypesCount();
+                    syncResult.NumberOfTemplatesAdded = _templateReadRepository.CountAllTemplates() - numberOfTemplatesBefore;
+                    syncResult.NumberOfPropertiesAdded = _contentReadRepository.CountAllPropertiesFromAllContentTypes() - numberOfPropertiesBefore;
+                    syncResult.NumberOfDocumentTypesAdded = _contentReadRepository.GetAllContentTypesCount() - numberOfDocumentTypesBefore;
+                }
+            }
+
+            return syncResult;
         }
 
         public GenerateResult GenerateDocumentTypes(GenerateOptions generateOptions)
         {
+            Logger.WriteDebugLine<UTransporter>("I get logged");
             GenerateResult generateResult = CreateGenerateResult();
             try
             {
@@ -80,10 +118,9 @@ namespace Mirabeau.uTransporter
                 generateResult.Successful = true;
                 generateResult.Message = "Generate successful";
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                // Gotta catch them all!
-                _log.Error(string.Format("Exception: {0}", exception), exception);
+                Logger.WriteErrorLine<UTransporter>("Exception: {0}", ex.Message);
 
                 generateResult.Successful = false;
                 generateResult.Message = "Generation failed, see the log for the full error message";
@@ -118,10 +155,9 @@ namespace Mirabeau.uTransporter
                 removeResult.NumberOfDocumentTypesRemoved = numberOfDocumentTypesRemoved;
                 removeResult.NumberOfTemplatesRemoved = numberOfTemplatesRemoved;
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                // Gotta catch them all!
-                _log.Error(string.Format("Exception: {0}", exception.ToString()), exception);
+                Logger.WriteErrorLine<UTransporter>("Exception: {0}", ex.Message);
 
                 removeResult.Successful = false;
                 removeResult.Message = "Document Types removal failed";
@@ -142,52 +178,6 @@ namespace Mirabeau.uTransporter
             return removeResult;
         }
 
-        /// <summary>
-        /// Synchronizes the document types
-        /// </summary>
-        /// <returns>SyncResult instance</returns>
-        public SyncResult SynchronizeDocumentTypes()
-        {
-            SyncResult syncResult = CreateSyncResult();
-
-            int numberOfTemplatesBefore = _templateReadRepository.CountAllTemplates();
-            int numberOfPropertiesBefore = _contentReadRepository.CountAllPropertiesFromAllContentTypes();
-            int numberOfDocumentTypesBefore = _contentReadRepository.GetAllContentTypesCount();
-
-            try
-            {
-                _timer.Restart();
-                _contentTypeManager.SaveContentType();
-
-                syncResult.Successful = true;
-                syncResult.Message = "Synchronisation successful";
-            }
-            catch (Exception exception)
-            {
-                // Gotta catch them all!
-                _log.Error(string.Format("Exception: {0}", exception), exception);
-
-                syncResult.Successful = false;
-                syncResult.Message = "Synchronisation failed";
-            }
-            finally
-            {
-                _timer.Stop();
-
-                syncResult.ElapsedTime = _timer.Elapsed;
-                syncResult.FinishedTimestamp = DateTime.Now;
-
-                if (syncResult.Successful)
-                {
-                    syncResult.NumberOfDocumentTypesChecked = _contentReadRepository.GetAllContentTypesCount();
-                    syncResult.NumberOfTemplatesAdded = _templateReadRepository.CountAllTemplates() - numberOfTemplatesBefore;
-                    syncResult.NumberOfPropertiesAdded = _contentReadRepository.CountAllPropertiesFromAllContentTypes() - numberOfPropertiesBefore;
-                    syncResult.NumberOfDocumentTypesAdded = _contentReadRepository.GetAllContentTypesCount() - numberOfDocumentTypesBefore;
-                }
-            }
-
-            return syncResult;
-        }
 
         /// <summary>
         /// Synchronize with dry run
@@ -200,11 +190,12 @@ namespace Mirabeau.uTransporter
             {
                 SetupDryRunDatabase();
                 UmbracoServices.UmbracoService.EnableDryRunMode();
-                syncResult = SynchronizeDocumentTypes();
+                syncResult = RunImport();
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                return new SyncResult() { Successful = false, Message = "Failed to setup DryRun database." };
+                Logger.WriteErrorLine<UTransporter>("Failed to setup DB exception: {0}", ex.Message);
+                return new SyncResult() { Successful = false, Message = "Failed to setup dry-run database." };
             }
             finally
             {
@@ -256,9 +247,9 @@ namespace Mirabeau.uTransporter
                 var sqlConnection = _sqlManagerObject.BuildConnectionString("umbracoDbDSN");
                 _sqlManagerObject.CreateDatabase(sqlConnection, "DryRun");
             }
-            catch (SqlException exception)
+            catch (SqlException ex)
             {
-                _log.Error("An error occured during the DryRun database setup", exception);
+                Logger.WriteErrorLine<UTransporter>("An error occured during the dry-run database setup {0}", ex.Message);
                 throw;
             }
         }
@@ -272,9 +263,9 @@ namespace Mirabeau.uTransporter
 
                 _sqlManagerObject.DeleteDatabase(sqlConnection);
             }
-            catch (SqlException exception)
+            catch (SqlException ex)
             {
-                _log.Error("An error occured during the DryRun database setup", exception);
+                Logger.WriteErrorLine<UTransporter>("An error occured during the dry-run database setup {0}", ex.Message);
                 throw;
             }
         }

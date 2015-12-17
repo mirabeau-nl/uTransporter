@@ -232,6 +232,7 @@
     <Compile Include="Comparers\PropertyTypeComparer.cs" />
     <Compile Include="Comparers\TemplateComparer.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
+    <Compile Include="Extensions\Logger.cs" />
     <Compile Include="Properties\DocumentType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -394,9 +395,10 @@
     <None Include="Backoffice\Config\Dashboard.config.transform">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Config\log4net.config">
+    <Content Include="Config\log4net.config">
       <SubType>Designer</SubType>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Mirabeau.uTransporter.nuspec">
       <SubType>Designer</SubType>
     </None>

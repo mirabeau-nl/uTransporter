@@ -34,7 +34,7 @@ namespace $rootnamespace$.Controllers
         [HttpPost]
         public HttpResponseMessage StartSync()
         {
-            SyncResult syncResult = _uTransporter.SynchronizeDocumentTypes();
+            SyncResult syncResult = _uTransporter.RunImport();
 
             // Compose response
             HttpStatusCode statusCode = syncResult.Successful ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;

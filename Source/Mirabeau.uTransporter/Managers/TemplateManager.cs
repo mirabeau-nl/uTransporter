@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Mirabeau.uTransporter.Attributes;
 using Mirabeau.uTransporter.Builders;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Logging;
 
@@ -13,15 +14,13 @@ namespace Mirabeau.uTransporter.Managers
 {
     public class TemplateManager : ITemplateManager
     {
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
         private readonly IFileService _fileService;
 
         private readonly ITemplateReadRepository _templateReadRepository;
 
         private readonly IAttributeManager _attributeManager;
-        
-        private readonly ILog4NetWrapper _log;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateManager"/> class.
@@ -33,7 +32,6 @@ namespace Mirabeau.uTransporter.Managers
             _fileService = umbracoFactory.GetFileService();
             _templateReadRepository = templateReadRepository;
             _attributeManager = attributeManager;
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
         }
 
         /// <summary>
@@ -44,6 +42,7 @@ namespace Mirabeau.uTransporter.Managers
         public IList<ITemplate> CreateAllowedTemplateList(DocumentTypeAttribute attribute)
         {
             IList<ITemplate> allowedTemplates = new List<ITemplate>();
+
             if (attribute.AllowedTemplates != null)
             {
                 foreach (Type templateType in attribute.AllowedTemplates)
@@ -109,9 +108,8 @@ namespace Mirabeau.uTransporter.Managers
             {
                 _fileService.SaveTemplate(template);
             }
-            
-            _log.Indent(3);
-            _log.Info("Template with name {0} did not exist, created it.", templateDefintion.Name);
+
+            Logger.WriteInfoLine<TemplateManager>("Template with name {0} did not exist, created it.", templateDefintion.Name);
 
             return _templateReadRepository.GetATemplate(template.Alias);
         }
@@ -134,7 +132,7 @@ namespace Mirabeau.uTransporter.Managers
                 {
                     return CreateTemplate(templateAttribute);
                 }
-                
+
             }
 
             return template;

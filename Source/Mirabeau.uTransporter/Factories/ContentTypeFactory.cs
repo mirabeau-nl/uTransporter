@@ -5,8 +5,8 @@ using System.Linq;
 using Mirabeau.uTransporter.Attributes;
 using Mirabeau.uTransporter.Builders;
 using Mirabeau.uTransporter.Exceptions;
+using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 using Mirabeau.uTransporter.Utils;
 
 using Umbraco.Core.Models;
@@ -21,7 +21,6 @@ namespace Mirabeau.uTransporter.Factories
         private readonly ITemplateManager _templateManager;
         private readonly IPropertyFactory _propertyFactory;
         private readonly IContentReadRepository _contentReadRepository;
-        private readonly ILog4NetWrapper _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
 
         public ContentTypeFactory(IManagerFactory managerFactory, IPropertyFactory propertyFactory, IContentReadRepository contentReadRepository)
         {
@@ -87,7 +86,7 @@ namespace Mirabeau.uTransporter.Factories
 
             if (string.IsNullOrEmpty(alias))
             {
-                _log.Info("Document type alias attribute for class {0} is empty, using class name", type.Name);
+                Logger.WriteInfoLine<ContentTypeFactory>("Document type alias attribute for class {0} is empty, using class name", type.Name);
                 result = type.Name;
             }
             else

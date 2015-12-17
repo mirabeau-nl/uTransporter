@@ -5,8 +5,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
+using log4net;
+
 using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 using Mirabeau.uTransporter.Models;
 
 namespace Mirabeau.uTransporter.Extensions
@@ -17,16 +18,6 @@ namespace Mirabeau.uTransporter.Extensions
     /// </summary>
     public class DocumentFinder : IDocumentFinder
     {
-        private readonly ILog4NetWrapper _log;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DocumentFinder"/> class.
-        /// </summary>
-        public DocumentFinder()
-        {
-            _log = LogManagerWrapper.GetLogger("Mirabeau.uTransporter");
-        }
-
         /// <summary>
         /// Gets the sub class.
         /// </summary>
@@ -91,8 +82,7 @@ namespace Mirabeau.uTransporter.Extensions
                     if (objects.BaseType == baseClass || (baseClass.IsGenericType && baseClass.Name == objects.BaseType.Name)
                         || objects.GetInterfaces().FirstOrDefault(i => i == baseClass) != null)
                     {
-                        _log.Indent(4);
-                        _log.Info("Subclass found {0}", objects);
+                        Logger.WriteInfoLine<DocumentFinder>("Subclass found {0}", objects);
                         childTypes.Add(objects);
                     }
                 }
@@ -155,18 +145,18 @@ namespace Mirabeau.uTransporter.Extensions
             {
                 ReflectionTypeLoadException typeLoadException = exception as ReflectionTypeLoadException;
 
-                _log.Error("exception occured", typeLoadException);
+                Logger.WriteErrorLine<DocumentFinder>("exception occured {0}", typeLoadException);
 
                 Exception[] loaderExceptions = typeLoadException.LoaderExceptions;
 
                 foreach (Exception loaderException in loaderExceptions)
                 {
-                    _log.Error("exception occured, current loaderException", loaderException);
+                    Logger.WriteErrorLine<DocumentFinder>("exception occured {0}", loaderException);
                 }
             }
             else
             {
-                _log.Error("Error occured", exception);
+                Logger.WriteErrorLine<DocumentFinder>("Error occured {0}", exception);
             }
         }
     }
