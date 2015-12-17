@@ -370,11 +370,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backoffice\App_Plugins\uTransporter\css\bootstrap.min.css" />
-    <Content Include="Backoffice\App_Plugins\uTransporter\css\ng-table.min.css" />
     <Content Include="Backoffice\App_Plugins\uTransporter\css\Spinner.css" />
     <Content Include="Backoffice\App_Plugins\uTransporter\css\DashBoard.css" />
-    <Content Include="Backoffice\App_Plugins\uTransporter\js\ng-table.js" />
-    <Content Include="Backoffice\App_Plugins\uTransporter\js\ng-table.min.js" />
     <Content Include="Backoffice\App_Plugins\uTransporter\js\DashBoard.controller.js" />
     <Content Include="Backoffice\App_Plugins\uTransporter\js\DashBoard.service.js" />
     <Content Include="Backoffice\App_Plugins\uTransporter\ConfirmAction.html" />
@@ -390,7 +387,6 @@
     <Content Include="bin\Debug\umbraco.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Backoffice\App_Plugins\uTransporter\js\ng-table.map" />
     <None Include="Backoffice\App_Plugins\uTransporter\package.manifest" />
     <None Include="Backoffice\Config\Dashboard.config.transform">
       <SubType>Designer</SubType>

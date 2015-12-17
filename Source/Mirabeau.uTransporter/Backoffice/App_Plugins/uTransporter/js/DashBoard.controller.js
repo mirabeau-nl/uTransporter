@@ -1,28 +1,6 @@
-﻿app.requires.push('ngTable');
-
-angular.module('umbraco').controller("uTransporter.uTransporterController",
-    function ($scope, uTransporterService, ngTableParams, $filter, $routeParams, $timeout, dialogService) {
+﻿angular.module('umbraco').controller("uTransporter.uTransporterController",
+    function ($scope, uTransporterService, $filter, $routeParams, $timeout, dialogService) {
         $scope.id = $routeParams.id;
-        $scope.showLog = false;
-        $scope.log_error = true;
-        $scope.logData = [];
-
-        // Initialize ng-table
-        $scope.tableParams = new ngTableParams({
-            page: 1, // show first page
-            count: 10, // count per page
-            sorting: {
-                'Date': 'desc' // initial sorting
-            }
-        }, {
-            total: $scope.logData.length,
-            getData: function ($defer, params) {
-                var filteredData = params.filter() ? $filter('filter')($scope.logData, params.filter()) : $scope.logData;
-                var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : $scope.logData;
-                params.total(orderedData.length);
-                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-            }
-        });
 
         // Show spinner on button click (all button-actions perform AJAX requests)
         $("button").click(function () {
@@ -35,7 +13,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
 
             dialogService.open({
                 template: '/App_Plugins/uTransporter/ConfirmAction.html?t=' + new Date().getTime(),
-                callback: function(confirmed) {
+                callback: function (confirmed) {
 
                     if (!confirmed) {
                         return;
@@ -57,7 +35,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
 
                         // Give the server some time to write to log file, 2.5s seems ok.
                         if ($scope.showLog) {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $scope.getLog();
                             }, 2500);
                         }
@@ -65,13 +43,13 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
                 }
             });
         };
-        
+
         $scope.startGenerate = function () {
             $(".spinner").hide();
 
             dialogService.open({
                 template: '/App_Plugins/uTransporter/ConfirmAction.html?t=' + new Date().getTime(),
-                callback: function(confirmed) {
+                callback: function (confirmed) {
 
                     if (!confirmed) {
                         return;
@@ -122,7 +100,7 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             });
         };
 
-        $scope.resetAllMessages = function() {
+        $scope.resetAllMessages = function () {
             $scope.removeStyle = "";
             $scope.removeResult = "";
             $scope.removeResultMessage = "";
@@ -143,26 +121,10 @@ angular.module('umbraco').controller("uTransporter.uTransporterController",
             $scope.showLog = false;
         };
 
-        $scope.getLog = function () {
-            uTransporterService.getLog().then(function (data) {
-                if (data <= 0) {
-                    $(".spinner").hide("slow");
-                    $scope.error_log = "errorlog";
-                    return;
-                }
-                $scope.showLog = true;
-                $scope.logData = data;
-                $scope.tableParams.reload();
-
-                $(".spinner").hide("slow");
-                console.log("Log refreshed");
-            });
-        };
-
-        $scope.help = function() {
+        $scope.help = function () {
             dialogService.open({
                 template: '/App_Plugins/uTransporter/HelpDialog.html',
-                callback: function(confirmed) {
+                callback: function (confirmed) {
                     if (!confirmed) {
                         return;
                     }

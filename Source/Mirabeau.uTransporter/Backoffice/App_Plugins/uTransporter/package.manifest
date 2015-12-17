@@ -2,14 +2,10 @@
     "$schema": "/App_Plugins/manifestSchema.json",
     "javascript":[
         "~/App_Plugins/uTransporter/js/DashBoard.controller.js",
-        "~/App_Plugins/uTransporter/js/Dashboard.service.js",
-        "~/App_Plugins/uTransporter/js/ng-table.min.js",
-        "~/App_Plugins/uTransporter/js/ng-table.js"
+        "~/App_Plugins/uTransporter/js/Dashboard.service.js"
     ],
     "css" : [
         "~/App_Plugins/uTransporter/css/DashBoard.css",
-        "~/App_Plugins/uTransporter/css/Spinner.css",
-        "~/App_Plugins/uTransporter/css/ng-table.min.css",
-        "~/App_Plugins/uTransporter/css/bootstrap.min.css"
+        "~/App_Plugins/uTransporter/css/Spinner.css"
     ]
 }
