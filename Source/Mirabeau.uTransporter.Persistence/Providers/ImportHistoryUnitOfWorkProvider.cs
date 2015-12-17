@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-using Mirabeau.uTransporter.Persistence.Models;
 using Mirabeau.uTransporter.Persistence.UnitOfWork;
 
 using Umbraco.Core.Persistence;
@@ -20,42 +21,44 @@ namespace Mirabeau.uTransporter.Persistence.Providers
             }
         }
 
-        public bool Create(ImportHistory model)
+        public object Create(object obj)
         {
-            throw new NotImplementedException();
+            return _threadSafeDatabaseInstance.Insert(obj);
         }
 
-        public ImportHistory Read()
+        public IEnumerable<T> Read<T>(string query, params object[] args)
         {
-            throw new System.NotImplementedException();
+            return _threadSafeDatabaseInstance.Query<T>(new Sql(query, args));
         }
 
-        public ImportHistory Read(int id)
+        public T ReadSingle<T>(string query, params object[] args)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<T> enumerable = Read<T>(query, args);
+
+            return enumerable.FirstOrDefault<T>();
         }
 
-        public bool Update(ImportHistory model)
+        public int Update<T>(string query, params object[] args)
         {
-            throw new System.NotImplementedException();
+            return _threadSafeDatabaseInstance.Update<T>(new Sql(query, args));
         }
 
-        public bool Delete(ImportHistory model)
+        public int Delete(object obj)
         {
-            throw new System.NotImplementedException();
+            return _threadSafeDatabaseInstance.Delete(obj);
         }
     }
 
     public interface IImportHistoryUnitOfWorkProvider
     {
-        bool Create(ImportHistory model);
+        object Create(object model);
 
-        ImportHistory Read();
+        IEnumerable<T> Read<T>(string query, params object[] args);
 
-        ImportHistory Read(int id);
+        T ReadSingle<T>(string query, params object[] args);
 
-        bool Update(ImportHistory model);
+        int Update<T>(string query, params object[] args);
 
-        bool Delete(ImportHistory model);
+        int Delete(object model);
     }
 }
