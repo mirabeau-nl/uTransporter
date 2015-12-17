@@ -58,12 +58,7 @@ namespace Mirabeau.uTransporter.Managers
                 throw new ArgumentNullException(string.Format("Can't preform API method with empty {1} argument at: {0}", GetType().Name, alias));
             }
 
-            if (_retryableContentTypeService.GetContentType(alias) != null)
-            {
-                return true;
-            }
-
-            return false;
+            return _retryableContentTypeService.GetContentType(alias) != null;
         }
 
         /// <summary>
@@ -74,16 +69,16 @@ namespace Mirabeau.uTransporter.Managers
         {
             IEnumerable<IContentType> documentEnumerable = _retryableContentTypeService.GetAllContentTypes().ToList();
 
-            int removedDocumentsCounter = 0;
+            var i = 0;
             foreach (var document in documentEnumerable.OrderByDescending(m => m.Id))
             {
                 _retryableContentTypeService.Delete(document);
-                removedDocumentsCounter++;
+                i++;
             }
 
             Logger.WriteInfoLine<ContentTypeManager>("Removed all document types from the database");
 
-            return removedDocumentsCounter;
+            return i;
         }
 
         /// <summary>
@@ -94,14 +89,14 @@ namespace Mirabeau.uTransporter.Managers
         {
             IEnumerable<ITemplate> templateEnumerable = _fileService.GetTemplates();
 
-            int removedTemplatesCounter = 0;
+            var i = 0;
             foreach (ITemplate template in templateEnumerable.OrderByDescending(m => m.Id))
             {
                 _fileService.DeleteTemplate(template.Alias);
-                removedTemplatesCounter++;
+                i++;
             }
 
-            return removedTemplatesCounter;
+            return i;
         }
 
         /// <summary>

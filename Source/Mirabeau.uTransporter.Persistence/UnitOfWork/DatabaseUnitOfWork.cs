@@ -1,14 +1,22 @@
-﻿using Umbraco.Core.Persistence;
+﻿using Umbraco.Core;
+using Umbraco.Core.Persistence;
 
 namespace Mirabeau.uTransporter.Persistence.UnitOfWork
 {
-    public class DatabaseUnitOfWork
+    public class DatabaseUnitOfWork : IDatabaseUnitOfWork
     {
-        public DatabaseUnitOfWork(string connectionString)
+        public Database CreateDatabaseUnitOfWork()
         {
-            Database = new Database(connectionString, "System.Data.SqlClient");
+            Database = ApplicationContext.Current.DatabaseContext.Database;
+
+            return Database;
         }
 
         public Database Database { get; set; }
+    }
+
+    public interface IDatabaseUnitOfWork
+    {
+        Database CreateDatabaseUnitOfWork();
     }
 }

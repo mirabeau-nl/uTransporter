@@ -407,7 +407,10 @@
     <ProjectReference Include="..\Mirabeau.uTransporter.DependencyResolution\Mirabeau.uTransporter.DependencyResolution.csproj">
       <Project>{5fe015cc-cf9e-498b-adc2-4e1ae1f462d8}</Project>
       <Name>Mirabeau.uTransporter.DependencyResolution</Name>
-      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Mirabeau.uTransporter.Persistence\Mirabeau.uTransporter.Persistence.csproj">
+      <Project>{5ba95d1f-e470-46ed-a087-eaabb546120f}</Project>
+      <Name>Mirabeau.uTransporter.Persistence</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
