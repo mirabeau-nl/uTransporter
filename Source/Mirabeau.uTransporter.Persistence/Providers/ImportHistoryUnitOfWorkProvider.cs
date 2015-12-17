@@ -20,12 +20,17 @@ namespace Mirabeau.uTransporter.Persistence.Providers
             }
         }
 
-        public ImportHistory Get()
+        public bool Create(ImportHistory model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ImportHistory Read()
         {
             throw new System.NotImplementedException();
         }
 
-        public ImportHistory Get(int id)
+        public ImportHistory Read(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -43,9 +48,11 @@ namespace Mirabeau.uTransporter.Persistence.Providers
 
     public interface IImportHistoryUnitOfWorkProvider
     {
-        ImportHistory Get();
+        bool Create(ImportHistory model);
 
-        ImportHistory Get(int id);
+        ImportHistory Read();
+
+        ImportHistory Read(int id);
 
         bool Update(ImportHistory model);
 
