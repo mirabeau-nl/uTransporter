@@ -7,9 +7,9 @@ namespace Mirabeau.uTransporter.Persistence.Repositories
 {
     public class ImportHistoryRepository : IImportHistoryRepository
     {
-        private readonly IImportHistoryUnitOfWorkProvider _unitOfWorkProvider;
+        private readonly ICrudHistoryUnitOfWorkProvider _unitOfWorkProvider;
 
-        public ImportHistoryRepository(IImportHistoryUnitOfWorkProvider unitOfWorkProvider)
+        public ImportHistoryRepository(ICrudHistoryUnitOfWorkProvider unitOfWorkProvider)
         {
             _unitOfWorkProvider = unitOfWorkProvider;
         }
