@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirabeau.uTransporter", "Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirabeau.uTransporter.DependencyResolution", "Mirabeau.uTransporter.DependencyResolution\Mirabeau.uTransporter.DependencyResolution.csproj", "{5FE015CC-CF9E-498B-ADC2-4E1AE1F462D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirabeau.uTransporter.Persistence", "Mirabeau.uTransporter.Persistence\Mirabeau.uTransporter.Persistence.csproj", "{5BA95D1F-E470-46ED-A087-EAABB546120F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,16 @@ Global
 		{5FE015CC-CF9E-498B-ADC2-4E1AE1F462D8}.Release|ARM.ActiveCfg = Release|Any CPU
 		{5FE015CC-CF9E-498B-ADC2-4E1AE1F462D8}.Release|x64.ActiveCfg = Release|Any CPU
 		{5FE015CC-CF9E-498B-ADC2-4E1AE1F462D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Release|x64.ActiveCfg = Release|Any CPU
+		{5BA95D1F-E470-46ED-A087-EAABB546120F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
