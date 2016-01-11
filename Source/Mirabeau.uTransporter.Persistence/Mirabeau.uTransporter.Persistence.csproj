@@ -277,11 +277,10 @@
     <Compile Include="Providers\CrudUnitOfWorkProvider.cs" />
     <Compile Include="Providers\TableUnitOfWorkProvider.cs" />
     <Compile Include="Repositories\ImportHistoryRepository.cs" />
+    <Compile Include="Services\ImportHistoryService.cs" />
     <Compile Include="UnitOfWork\DatabaseUnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

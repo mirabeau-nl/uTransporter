@@ -266,6 +266,7 @@
     <Compile Include="Comparers\TemplateComparer.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="Extensions\Logger.cs" />
+    <Compile Include="Models\ImportHistoryResult.cs" />
     <Compile Include="Properties\DocumentType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -427,9 +428,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Mirabeau.uTransporter.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

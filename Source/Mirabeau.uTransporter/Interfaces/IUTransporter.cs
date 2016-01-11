@@ -1,9 +1,13 @@
-﻿using Mirabeau.uTransporter.Models;
+﻿using System.Collections.Generic;
+
+using Mirabeau.uTransporter.Models;
+using Mirabeau.uTransporter.Persistence.Models;
 
 namespace Mirabeau.uTransporter.Interfaces
 {
     public interface IUTransporter
     {
+        ImportHistoryResult GetHistory();
         /// <summary>
         /// Synchronizes the document types.
         /// main application entraince

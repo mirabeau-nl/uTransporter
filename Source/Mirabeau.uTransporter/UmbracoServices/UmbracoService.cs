@@ -23,7 +23,7 @@ namespace Mirabeau.uTransporter.UmbracoServices
         public UmbracoService()
         {
             _dryRunServiceContextFactory = new DryRunServiceFactory("umbracoDbDSN");
-            _serviceContext = this.GetApplicationServiceContext();
+            _serviceContext = ApplicationContext.Current.Services;
         }
 
         public static bool GetDryRunMode()
@@ -94,11 +94,6 @@ namespace Mirabeau.uTransporter.UmbracoServices
         public IMediaService GetMediaService()
         {
             return _isDryRun ? _dryRunServiceContextFactory.CreateMediaService() : _serviceContext.MediaService;
-        }
-
-        private ServiceContext GetApplicationServiceContext()
-        {
-            return ApplicationContext.Current.Services;
         }
     }
 }

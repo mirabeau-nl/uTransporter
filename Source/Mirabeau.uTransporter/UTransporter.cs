@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Reflection;
@@ -6,6 +7,9 @@ using System.Reflection;
 using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Models;
+using Mirabeau.uTransporter.Persistence.Models;
+using Mirabeau.uTransporter.Persistence.Repositories;
+using Mirabeau.uTransporter.Persistence.Services;
 using Mirabeau.uTransporter.Services;
 
 namespace Mirabeau.uTransporter
@@ -30,6 +34,8 @@ namespace Mirabeau.uTransporter
 
         private readonly ITemplateGenerator _templateGenerator;
 
+        private readonly IImportHistoryService _importHistoryService;
+
         private readonly string _targetPath = Utils.Util.CombinePaths(AppDomain.CurrentDomain.BaseDirectory, Properties.Settings.Default.SyncBaseDir);
 
         /// <summary>
@@ -42,7 +48,7 @@ namespace Mirabeau.uTransporter
         /// <param name="documentTypeGenerator"></param>
         /// <param name="templateGenerator"></param>
         /// <param name="tabGenerator"></param>
-        public UTransporter(IContentTypeManager contentTypeManager, ISqlObjectManager sqlManagerObject, IContentReadRepository contentReadRepository, ITemplateReadRepository templateReadRepository, IDocumentTypeGenerator documentTypeGenerator, ITemplateGenerator templateGenerator)
+        public UTransporter(IContentTypeManager contentTypeManager, ISqlObjectManager sqlManagerObject, IContentReadRepository contentReadRepository, ITemplateReadRepository templateReadRepository, IDocumentTypeGenerator documentTypeGenerator, ITemplateGenerator templateGenerator, IImportHistoryService importHistoryService)
         {
             _contentTypeManager = contentTypeManager;
             _templateReadRepository = templateReadRepository;
@@ -50,7 +56,16 @@ namespace Mirabeau.uTransporter
             _contentReadRepository = contentReadRepository;
             _timer = new Stopwatch();
             _documentTypeGenerator = documentTypeGenerator;
-            _templateGenerator = templateGenerator;
+            _importHistoryService = importHistoryService;
+        }
+
+        public ImportHistoryResult GetHistory()
+        {
+            ImportHistoryResult result = new ImportHistoryResult();
+            IEnumerable<ImportHistory> importHistories = _importHistoryService.GetHistoryData();
+            result.ImportHistories.AddRange(importHistories);
+
+            return result;
         }
 
         /// <summary>

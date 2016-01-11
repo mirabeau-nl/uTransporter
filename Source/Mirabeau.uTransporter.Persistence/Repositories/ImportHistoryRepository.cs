@@ -14,14 +14,14 @@ namespace Mirabeau.uTransporter.Persistence.Repositories
             _unitOfWorkProvider = unitOfWorkProvider;
         }
 
-        public IEnumerable<ImportHistory> GetHistory()
+        public IEnumerable<ImportHistory> GetData()
         {
-            return _unitOfWorkProvider.Read<ImportHistory>("SELECT * FROM uTransporterImportHistory");
+            return _unitOfWorkProvider.Read<ImportHistory>("SELECT * FROM dbo.uTransporterImportHistory");
         }
     }
 
     public interface IImportHistoryRepository
     {
-        IEnumerable<ImportHistory> GetHistory();
+        IEnumerable<ImportHistory> GetData();
     }
 }

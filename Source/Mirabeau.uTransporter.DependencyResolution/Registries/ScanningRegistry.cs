@@ -15,6 +15,7 @@ namespace Mirabeau.uTransporter.DependencyResolution.Registries
                 {
                     x.TheCallingAssembly();
                     x.Assembly("Mirabeau.uTransporter");
+                    x.Assembly("Mirabeau.uTransporter.Persistence");
                     x.WithDefaultConventions();
                 });
         }
