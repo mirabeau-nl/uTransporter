@@ -35,24 +35,5 @@ namespace Mirabeau.uTransporter.UnitTests.Services
             // Assert
             Assert.That(actual.ConnectionString, Is.EqualTo(expected.ConnectionString));
         }
-
-        [Test]
-        public void CreateNewConnection_ShouldCreateANewSQLConnection_ReturnServerConnectionObject()
-        {
-            // Arrange
-            
-            // Act
-            var actual = sqlObjectManager.CreateNewConnection("Foo", "Bar", "Baz");
-           
-            // Assert
-            Assert.That(actual, Is.InstanceOf(typeof(ServerConnection)));
-        }
-
-        [Test]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void CloseAllDatabaseConnections_ShouldThrowNullRefException_Return()
-        {
-            sqlObjectManager.CloseAllDatbaseConnections(null, string.Empty);
-        }
     }
 }

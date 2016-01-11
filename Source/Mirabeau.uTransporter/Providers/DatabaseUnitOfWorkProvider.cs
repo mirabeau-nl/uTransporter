@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 
 using Mirabeau.uTransporter.Interfaces;
+using Mirabeau.uTransporter.Services;
 using Mirabeau.uTransporter.UnitOfWork;
 
 using Umbraco.Core.Persistence.UnitOfWork;

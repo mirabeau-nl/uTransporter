@@ -325,7 +325,6 @@
     <Compile Include="Interfaces\IContentWriteRepository.cs" />
     <Compile Include="Providers\DatabaseUnitOfWorkProvider.cs" />
     <Compile Include="Interfaces\IPropertyFactory.cs" />
-    <Compile Include="Interfaces\ISqlObjectManager.cs" />
     <Compile Include="Managers\PropertyManager.cs" />
     <Compile Include="Factories\ManagerFactory.cs" />
     <Compile Include="Factories\ValidatorFactory.cs" />
@@ -349,6 +348,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Tab.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\SqlObjectManager.cs" />
     <Compile Include="UmbracoServices\UmbracoService.cs" />
     <Compile Include="Extensions\DocumentFinder.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -372,7 +372,6 @@
     <Compile Include="Repositories\PropertyWriteRepository.cs" />
     <Compile Include="Repositories\TemplateReadRepository.cs" />
     <Compile Include="Repositories\TemplateWriteRepository.cs" />
-    <Compile Include="Services\SqlObjectManager.cs" />
     <Compile Include="UmbracoServices\RetryableContentTypeService.cs" />
     <Compile Include="UmbracoServices\RetryableDataTypeService.cs" />
     <Compile Include="UTransporter.cs">

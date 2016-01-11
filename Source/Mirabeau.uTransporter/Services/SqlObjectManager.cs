@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
 using System.Web.Configuration;
 
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
 using Mirabeau.uTransporter.Extensions;
-using Mirabeau.uTransporter.Interfaces;
-using Mirabeau.uTransporter.Logging;
 
 namespace Mirabeau.uTransporter.Services
 {
@@ -34,16 +31,6 @@ namespace Mirabeau.uTransporter.Services
         }
 
         /// <summary>
-        /// Builds the connection string settings.
-        /// </summary>
-        /// <param name="connectionString">The connection string.</param>
-        /// <returns>ConnectionStringSetings object</returns>
-        public ConnectionStringSettings BuildConnectionStringSettings(string connectionString)
-        {
-            return new ConnectionStringSettings("Bla", connectionString);
-        }
-
-        /// <summary>
         /// Builds the connection string.
         /// </summary>
         /// <param name="connectionStringSettings">The connection string settings.</param>
@@ -65,18 +52,6 @@ namespace Mirabeau.uTransporter.Services
         }
 
         /// <summary>
-        /// Creates the new connection.
-        /// </summary>
-        /// <param name="dbServer">The database server.</param>
-        /// <param name="dbUsername">The database username.</param>
-        /// <param name="dbPassword">The database password.</param>
-        /// <returns>ServerConnection object</returns>
-        public ServerConnection CreateNewConnection(string dbServer, string dbUsername, string dbPassword)
-        {
-            return new ServerConnection(dbServer, dbUsername, dbPassword);
-        }
-
-        /// <summary>
         /// Creates the database.
         /// </summary>
         /// <param name="_sqlConnectionStringBuilder">The _SQL connection string builder.</param>
@@ -90,7 +65,7 @@ namespace Mirabeau.uTransporter.Services
             _dbPassword = _sqlConnectionStringBuilder.Password;
 
             /* DESTINATION Database */
-            string destDatabase = _sqlConnectionStringBuilder.InitialCatalog + "_" + copyDatabasePostfix;
+            string destDatabase = string.Format("{0}_{1}", _sqlConnectionStringBuilder.InitialCatalog, copyDatabasePostfix);
 
             // Create copy
             ServerConnection con = CreateNewConnection(_dbServer, _dbUsername, _dbPassword);
@@ -122,18 +97,30 @@ namespace Mirabeau.uTransporter.Services
             Database databaseToDrop = new Database(sqlServer, _sqlConnectionStringBuilder.InitialCatalog);
 
             // Refresh the database list in SQL server
-            this.RefreshDatabase(databaseToDrop);
+            RefreshDatabase(databaseToDrop);
 
             // Close all active connections
-            this.CloseAllDatbaseConnections(sqlServer, databaseToDrop.Name);
+            CloseAllDatbaseConnections(sqlServer, databaseToDrop.Name);
             databaseToDrop.Drop();
+        }
+
+        /// <summary>
+        /// Creates the new connection.
+        /// </summary>
+        /// <param name="dbServer">The database server.</param>
+        /// <param name="dbUsername">The database username.</param>
+        /// <param name="dbPassword">The database password.</param>
+        /// <returns>ServerConnection object</returns>
+        private ServerConnection CreateNewConnection(string dbServer, string dbUsername, string dbPassword)
+        {
+            return new ServerConnection(dbServer, dbUsername, dbPassword);
         }
 
         /// <summary>
         /// Refreshes the database.
         /// </summary>
         /// <param name="database">The database.</param>
-        public void RefreshDatabase(Database database)
+        private void RefreshDatabase(Database database)
         {
             database.Refresh();
         }
@@ -144,7 +131,7 @@ namespace Mirabeau.uTransporter.Services
         /// <param name="server">The server.</param>
         /// <param name="databaseName">Name of the database.</param>
         /// <exception cref="System.NullReferenceException"></exception>
-        public void CloseAllDatbaseConnections(Server server, string databaseName)
+        private void CloseAllDatbaseConnections(Server server, string databaseName)
         {
             try
             {
@@ -188,5 +175,18 @@ namespace Mirabeau.uTransporter.Services
 
             Logger.WriteInfoLine<SqlObjectManager>("All data transfered to the new database {0}", destDatabase);
         }
+    }
+
+    public interface ISqlObjectManager
+    {
+        ConnectionStringSettings GetConnectionStringSettings(string key);
+
+        SqlConnectionStringBuilder BuildConnectionString(ConnectionStringSettings connectionStringSettings);
+
+        SqlConnectionStringBuilder BuildConnectionString(string connectionStringName);
+
+        void CreateDatabase(SqlConnectionStringBuilder _sqlConnectionStringBuilder, string copyDatabasePostfix);
+
+        void DeleteDatabase(SqlConnectionStringBuilder _sqlConnectionStringBuilder);
     }
 }

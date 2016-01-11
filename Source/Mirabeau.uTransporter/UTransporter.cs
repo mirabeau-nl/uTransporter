@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 
 using Mirabeau.uTransporter.Extensions;
 using Mirabeau.uTransporter.Interfaces;
 using Mirabeau.uTransporter.Models;
-
-using umbraco.BusinessLogic;
+using Mirabeau.uTransporter.Services;
 
 namespace Mirabeau.uTransporter
 {

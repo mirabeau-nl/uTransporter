@@ -12,7 +12,7 @@ namespace Mirabeau.uTransporter.Persistence.UnitOfWork
             return Database;
         }
 
-        public Database Database { get; set; }
+        private Database Database { get; set; }
     }
 
     public interface IDatabaseUnitOfWork

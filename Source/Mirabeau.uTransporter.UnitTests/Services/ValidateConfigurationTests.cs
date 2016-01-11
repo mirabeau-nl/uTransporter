@@ -1,6 +1,4 @@
-﻿using Mirabeau.uTransporter.Services;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using Rhino.Mocks;
 
