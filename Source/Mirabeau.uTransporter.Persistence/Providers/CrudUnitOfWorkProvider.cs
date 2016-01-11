@@ -8,10 +8,10 @@ using Umbraco.Core.Persistence;
 
 namespace Mirabeau.uTransporter.Persistence.Providers
 {
-    public class CrudUnitOfWorkProvider : ICrudHistoryUnitOfWorkProvider
+    public class CrudUnitOfWorkProvider : ICrudUnitOfWorkProvider
     {
         [ThreadStatic]
-        private static Database _threadSafeDatabaseInstance = null;
+        private static Database _threadSafeDatabaseInstance;
 
         public CrudUnitOfWorkProvider(IDatabaseUnitOfWork databaseUnitOfWork)
         {
@@ -49,7 +49,7 @@ namespace Mirabeau.uTransporter.Persistence.Providers
         }
     }
 
-    public interface ICrudHistoryUnitOfWorkProvider
+    public interface ICrudUnitOfWorkProvider
     {
         object Create(object model);
 

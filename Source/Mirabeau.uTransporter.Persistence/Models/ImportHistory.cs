@@ -5,7 +5,7 @@ using Umbraco.Core.Persistence.DatabaseAnnotations;
 
 namespace Mirabeau.uTransporter.Persistence.Models
 {
-    [TableName("uTransporterImportHistory")]
+    [TableName("dbo.uTransporterImportHistory")]
     [PrimaryKey("Id", autoIncrement = true)]
     [ExplicitColumns]
     public class ImportHistory
